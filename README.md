@@ -9,9 +9,8 @@ A simple tech blog built with MVC standards.
 ## Table of Contents
 
 * [Installation](#installation)
-* [Usage](#usage)
+* [Screenshots](#screenshots)
 * [License](#license)
-* [Contributing](#contributing)
 * [Tests](#tests)
 * [Questions](#questions)
 
@@ -23,7 +22,12 @@ To install dependencies, run the following:
 npm i, npm i express, npm i sequelize, npm i dotenv, npm i mysql2, npm i handlebars
 `
 
-## Usage
+## Screenshots
+![image](https://user-images.githubusercontent.com/90018321/156977251-3fcf5847-e80f-4ec9-b200-cc26f0964900.png)
+
+![image](https://user-images.githubusercontent.com/90018321/156977333-ff60a5e6-e7e7-4260-a9af-9aa8326d5f96.png)
+
+![image](https://user-images.githubusercontent.com/90018321/156977386-7d812376-06f3-4ab5-87da-9e7ad203239e.png)
 
 
 
