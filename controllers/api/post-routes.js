@@ -3,49 +3,53 @@ const { Post, User, Comment } = require("../../models");
 const sequelize = require("../../config/connection");
 const withAuth = require("../../utils/auth");
 
+// get all users
 router.get("/", (req, res) => {
   console.log("======================");
   Post.findAll({
-    attributes: ["id", "title", "content", "created_at"],
+    attributes: ["id", "title", "created_at", "post_content"],
     order: [["created_at", "DESC"]],
     include: [
-      {
-        model: User,
-        attributes: ["username"],
-      },
+      // Comment model here -- attached username to comment
       {
         model: Comment,
         attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
         include: {
           model: User,
-          attributes: ["username"],
+          attributes: ["username", "twitter", "github"],
         },
+      },
+      {
+        model: User,
+        attributes: ["username", "twitter", "github"],
       },
     ],
   })
-    .then((dbPostData) => res.json(dbPostData.reverse()))
+    .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
+
 router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
       id: req.params.id,
     },
-    attributes: ["id", "content", "title", "created_at"],
+    attributes: ["id", "title", "created_at", "post_content"],
     include: [
+      // include the Comment model here:
       {
         model: User,
-        attributes: ["username"],
+        attributes: ["username", "twitter", "github"],
       },
       {
         model: Comment,
         attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
         include: {
           model: User,
-          attributes: ["username"],
+          attributes: ["username", "twitter", "github"],
         },
       },
     ],
@@ -66,7 +70,7 @@ router.get("/:id", (req, res) => {
 router.post("/", withAuth, (req, res) => {
   Post.create({
     title: req.body.title,
-    content: req.body.content,
+    post_content: req.body.post_content,
     user_id: req.session.user_id,
   })
     .then((dbPostData) => res.json(dbPostData))
@@ -80,7 +84,7 @@ router.put("/:id", withAuth, (req, res) => {
   Post.update(
     {
       title: req.body.title,
-      content: req.body.content,
+      post_content: req.body.post_content,
     },
     {
       where: {
@@ -100,6 +104,7 @@ router.put("/:id", withAuth, (req, res) => {
       res.status(500).json(err);
     });
 });
+
 router.delete("/:id", withAuth, (req, res) => {
   Post.destroy({
     where: {
